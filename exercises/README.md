@@ -12,7 +12,7 @@
 | enums                  | §6, §18.3           | 9.17 |
 | strings                | §8.2                | 9.17 |
 | modules                | §7                  | 9.17 |
-| hashmaps               | §8.3                | 9.17 *hashmaps3 for functions! |
+| hashmaps               | §8.3                | 9.17 *3 for functions! |
 | options                | §10.1               | 9.17 *3 for ref signature|
 | error_handling         | §9                  |      |
 | generics               | §10                 |      |
