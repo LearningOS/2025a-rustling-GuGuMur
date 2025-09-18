@@ -23,9 +23,20 @@ impl Licensed for SomeSoftware {}
 impl Licensed for OtherSoftware {}
 
 // YOU MAY ONLY CHANGE THE NEXT LINE
-fn compare_license_types(software: ??, software_two: ??) -> bool {
+fn compare_license_types<T, U>(software: T, software_two: U) -> bool
+where
+    T: Licensed,
+    U: Licensed,
+{
     software.licensing_info() == software_two.licensing_info()
 }
+
+// OR:
+// fn compare_license_types(software: impl Licensed, software_two: impl Licensed) -> bool {
+
+// OR:
+// fn compare_license_types<T: Licensed, U: Licensed>(software: T, software_two: U) -> bool {
+
 
 #[cfg(test)]
 mod tests {

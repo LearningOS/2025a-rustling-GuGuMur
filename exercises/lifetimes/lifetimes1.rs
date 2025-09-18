@@ -10,7 +10,7 @@
 
 // I AM NOT DONE
 
-fn longest(x: &str, y: &str) -> &str {
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str { // 推断x和y的生命周期相同
     if x.len() > y.len() {
         x
     } else {
