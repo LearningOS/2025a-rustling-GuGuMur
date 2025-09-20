@@ -51,12 +51,12 @@ impl<T> Default for Queue<T> {
     }
 }
 
-pub struct myStack<T>
+pub struct MyStack<T>
 {
     q1: Queue<T>,
     q2: Queue<T>,
 }
-impl<T> myStack<T> {
+impl<T> MyStack<T> {
     pub fn new() -> Self {
         Self {
             q1: Queue::<T>::new(),
@@ -70,13 +70,17 @@ impl<T> myStack<T> {
         if self.q1.is_empty() {
             return Err("Stack is empty");
         }
+        
         while self.q1.size() > 1 {
             let val = self.q1.dequeue().unwrap();
             self.q2.enqueue(val);
         }
-        let res = self.q1.dequeue();
+        
+        let result = self.q1.dequeue().unwrap();
+        
         std::mem::swap(&mut self.q1, &mut self.q2);
-        res
+        
+        Ok(result)
     }
     pub fn is_empty(&self) -> bool {
         self.q1.is_empty()
@@ -85,12 +89,12 @@ impl<T> myStack<T> {
 
 #[cfg(test)]
 mod tests {
-	use super::*;
-	
-	#[test]
-	fn test_queue(){
-		let mut s = myStack::<i32>::new();
-		assert_eq!(s.pop(), Err("Stack is empty"));
+    use super::*;
+    
+    #[test]
+    fn test_queue(){
+        let mut s = MyStack::<i32>::new();
+        assert_eq!(s.pop(), Err("Stack is empty"));
         s.push(1);
         s.push(2);
         s.push(3);
@@ -104,5 +108,5 @@ mod tests {
         assert_eq!(s.pop(), Ok(1));
         assert_eq!(s.pop(), Err("Stack is empty"));
         assert_eq!(s.is_empty(), true);
-	}
+    }
 }

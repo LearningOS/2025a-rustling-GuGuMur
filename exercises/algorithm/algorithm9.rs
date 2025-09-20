@@ -22,7 +22,7 @@ where
     pub fn new(comparator: fn(&T, &T) -> bool) -> Self {
         Self {
             count: 0,
-            items: vec![T::default()],
+            items: vec![T::default()], // index 0 is unused, heap starts from index 1
             comparator,
         }
     }
@@ -39,9 +39,16 @@ where
         self.items.push(value);
         self.count += 1;
         let mut idx = self.count;
-        while idx > 1 && (self.comparator)(&self.items[idx], &self.items[self.parent_idx(idx)]) {
-            self.items.swap(idx, self.parent_idx(idx));
-            idx = self.parent_idx(idx);
+        
+        // 向上调整（bubble up）
+        while idx > 1 {
+            let parent = self.parent_idx(idx);
+            if (self.comparator)(&self.items[idx], &self.items[parent]) {
+                self.items.swap(idx, parent);
+                idx = parent;
+            } else {
+                break;
+            }
         }
     }
 
@@ -64,6 +71,8 @@ where
     fn smallest_child_idx(&self, idx: usize) -> usize {
         let left = self.left_child_idx(idx);
         let right = self.right_child_idx(idx);
+        
+        // 如果右子节点存在且比左子节点更符合堆的条件
         if right <= self.count && (self.comparator)(&self.items[right], &self.items[left]) {
             right
         } else {
@@ -89,7 +98,7 @@ where
 
 impl<T> Iterator for Heap<T>
 where
-    T: Default,
+    T: Default + Clone,
 {
     type Item = T;
 
@@ -101,16 +110,20 @@ where
         self.items[1] = self.items[self.count].clone();
         self.items.pop();
         self.count -= 1;
-        let mut idx = 1;
-        while self.children_present(idx) {
-            let child = self.smallest_child_idx(idx);
-            if (self.comparator)(&self.items[child], &self.items[idx]) {
-                self.items.swap(idx, child);
-                idx = child;
-            } else {
-                break;
+        
+        if self.count > 0 {
+            let mut idx = 1;
+            while self.children_present(idx) {
+                let child = self.smallest_child_idx(idx);
+                if (self.comparator)(&self.items[child], &self.items[idx]) {
+                    self.items.swap(idx, child);
+                    idx = child;
+                } else {
+                    break;
+                }
             }
         }
+        
         Some(res)
     }
 }
