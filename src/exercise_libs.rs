@@ -1,3 +1,5 @@
+#![allow(dead_code, unused_variables, unused_mut, unused_imports, unreachable_code, unused_attributes, non_snake_case, unexpected_cfgs, unused_must_use, path_statements, mismatched_lifetime_syntaxes)]
+
 #[path = "../exercises"]
 pub mod exercises {    
     pub mod variables {

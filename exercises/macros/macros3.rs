@@ -16,7 +16,6 @@ mod macros {
     }
 }
 
-#[allow(dead_code)]
 fn main() {
     my_macro!();
 }
