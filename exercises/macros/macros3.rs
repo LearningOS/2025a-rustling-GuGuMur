@@ -6,6 +6,7 @@
 // hint.
 
 
+#[macro_use]
 mod macros {
     #[macro_export]
     macro_rules! my_macro {
@@ -15,6 +16,7 @@ mod macros {
     }
 }
 
+#[allow(dead_code)]
 fn main() {
     my_macro!();
 }
